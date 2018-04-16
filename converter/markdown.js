@@ -8,6 +8,24 @@
    return str;
  }
 
+ var parseCode = function(str) {
+  var codeRegExp = /```(.*?)```/;
+  var stra = [];
+  while ((stra = codeRegExp.exec(str)) !== null) {
+    str = str.replace(stra[0], '<code>' + stra[1] + '</code>');
+  }
+  return str;
+ }
+
+ var parseHorizontaleLine = function(str) {
+  var horizontalRegExp = /^(?:([\*\-_] ?)+)\1\1$/gm;
+  var stra = [];
+  while ((stra = horizontalRegExp.exec(str)) !== null) {
+    str = str.replace(stra[0], '\n<hr/>\n');
+  }
+  return str;
+ }
+
  var parseItalic = function(str) {
   var italicRegExp = /(\*|_)(.*?)\1/;
   var stra = [];
@@ -96,6 +114,8 @@ var markdown = {
     'use strict';
     str = parseNewLine(str);
     str = parseHeadline(str);
+    str = parseCode(str);
+    str = parseHorizontaleLine(str);
     str = parseBold(str);
     str = parseItalic(str);
     str = parseStrong(str);
